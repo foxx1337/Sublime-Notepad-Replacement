@@ -4,48 +4,54 @@
 #include "stdafx.h"
 #include "SublimeLauncher.h"
 #include <shellapi.h>
+#include <strsafe.h>
 
 int APIENTRY _tWinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
                      LPTSTR    lpCmdLine,
                      int       nCmdShow)
 {
-	UNREFERENCED_PARAMETER(hInstance);
-	UNREFERENCED_PARAMETER(hPrevInstance);
+    UNREFERENCED_PARAMETER(hInstance);
+    UNREFERENCED_PARAMETER(hPrevInstance);
 
-	LPTSTR arguments = new TCHAR[wcslen(lpCmdLine)+2];
-	arguments[0] = L'\0';
+    const size_t length = wcslen(lpCmdLine) + 2;
+    LPTSTR arguments = new TCHAR[length];
+    arguments[0] = L'\0';
 
-	bool argumentsPassed = false;
-	for( int i=1; i < __argc; i++)
-	{
-		if (wcscmp(__wargv[i], L"-z") == 0)
-		{
-			// -z specificed - skip the next parameter
-			i++;
-		}
-		else
-		{
-			if (argumentsPassed == false)
-				wcscat(arguments, L"\"");
-			else
-				wcscat(arguments, L" ");
+    int argc;
+    LPWSTR *wargv = CommandLineToArgvW(GetCommandLineW(), &argc);
 
-			argumentsPassed = true;
-			wcscat(arguments, __wargv[i]);
-		}
-	}
+    bool argumentsPassed = false;
+    for (int i=1; i < argc; i++)
+    {
+        if (wcscmp(wargv[i], L"-z") == 0)
+        {
+            // -z specified - skip the next parameter
+            i++;
+        }
+        else
+        {
+            if (argumentsPassed == false)
+                wcscat_s(arguments, length, L"\"");
+            else
+                wcscat_s(arguments, length, L" ");
 
-	if (argumentsPassed == true)
-		wcscat(arguments, L"\"");
-	
-	wchar_t* sublimeExe = _wcsdup(__wargv[0]);
-	sublimeExe[wcslen(sublimeExe) - wcslen(L"SublimeLauncher.exe")] = '\0';
-	wcscat(sublimeExe, L"sublime_text.exe");
+            argumentsPassed = true;
+            wcscat_s(arguments, length, wargv[i]);
+        }
+    }
 
-	ShellExecute(NULL, NULL, sublimeExe, arguments, NULL, nCmdShow);
+    if (argumentsPassed == true)
+        wcscat_s(arguments, length, L"\"");
+    // this is a test
+    // and another
+    
+    wchar_t* sublimeExe = _wcsdup(wargv[0]);
+    const int lengthExe = wcslen(sublimeExe) + 1;
+    sublimeExe[wcslen(sublimeExe) - wcslen(L"SublimeLauncher.exe")] = '\0';
+    wcscat_s(sublimeExe, lengthExe, L"sublime_text.exe");
 
-	return (int) 0;
+    ShellExecute(NULL, NULL, sublimeExe, arguments, NULL, nCmdShow);
+
+    return (int) 0;
 }
-
-
