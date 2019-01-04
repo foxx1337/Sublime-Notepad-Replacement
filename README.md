@@ -1,19 +1,26 @@
 ## Sublime Text Launcher
 
 ### Introduction
-This small utility provides the means to replace Notepad.exe on Windows with Sublime.
+This small utility provides the means to replace Notepad.exe on Windows with Sublime (or Visual Studio Code).
 
 More information about Sublime Text can be found on [the Sublime Text website](http://www.sublimetext.com/)
 
 ### Installation
 
-* Download the ZIP file from the [ZIP folder](https://github.com/grumpydev/Sublime-Notepad-Replacement/tree/master/zip).
-* Extract the three files in the ZIP (SublimeLauncher.exe, ReplaceNotepad.bat and RevertNotepadRedirection.bat) to the same directory as Sublime Text itself.
-* Run ReplaceNotepad.bat. You will need to "Run as Administrator" if using Vista/Win7.
+* Download the archive and extract it
+* In an administrative Powershell prompt (make sure you have `Set-ExecutionPolicy Unrestricted`) execute `setup.ps1`:
 
-Now when the system wants to launch Notepad it will launch Sublime Text instead.
-
+  ```powershell
+  Set-ExecutionPolicy Unrestricted
+  .\setup.ps1 -s "C:\Toolz\Sublime Text\sublime_text.exe" -l "C:\Toolz\Sublime-Notepad-Replacement\src\Sublime Launcher\Release\SublimeLauncher.exe"
+  ```
+  
 Enjoy!
 
 ### Uninstallation
-* If you ever want to revert changes and return to Notepad, run RevertNotepadRedirection.bat.
+
+* To uninstall, in an administrative Powershell prompt:
+
+  ```powershell
+  .\setup.ps1 -r
+  ```

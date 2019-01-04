@@ -22,13 +22,27 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     LPWSTR *wargv = CommandLineToArgvW(GetCommandLineW(), &argc);
 
     bool argumentsPassed = false;
-    for (int i=1; i < argc; i++)
+
+	wchar_t *sublimeExe = nullptr;
+
+    for (int i = 1; i < argc; i++)
     {
         if (wcscmp(wargv[i], L"-z") == 0)
         {
             // -z specified - skip the next parameter
             i++;
         }
+		else if (wcscmp(wargv[i], L"-s") == 0)
+		{
+			// -s specified - the next parameter is the full path to sublime_text.exe
+			i++;
+			if (i >= argc)
+			{
+				break;
+			}
+
+			sublimeExe = _wcsdup(wargv[i]);
+		}
         else
         {
             if (argumentsPassed == false)
@@ -46,10 +60,13 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
     // this is a test
     // and another
     
-    wchar_t* sublimeExe = _wcsdup(wargv[0]);
-    const int lengthExe = wcslen(sublimeExe) + 1;
-    sublimeExe[wcslen(sublimeExe) - wcslen(L"SublimeLauncher.exe")] = '\0';
-    wcscat_s(sublimeExe, lengthExe, L"sublime_text.exe");
+    if (sublimeExe == nullptr)
+	{
+		sublimeExe = _wcsdup(wargv[0]);
+		const int lengthExe = wcslen(sublimeExe) + 1;
+		sublimeExe[wcslen(sublimeExe) - wcslen(L"SublimeLauncher.exe")] = '\0';
+		wcscat_s(sublimeExe, lengthExe, L"sublime_text.exe");
+	}
 
     ShellExecute(NULL, NULL, sublimeExe, arguments, NULL, nCmdShow);
 
