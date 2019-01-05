@@ -14,7 +14,7 @@
     <ProjectGuid>{66227A58-31B0-4CB0-A9C0-F950CA801F45}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SublimeLauncher</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
