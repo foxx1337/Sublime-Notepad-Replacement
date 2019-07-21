@@ -33,7 +33,7 @@ else
     $LauncherPath = (Resolve-Path $LauncherPath)
     $SublimePath = (Resolve-Path $SublimePath)
 
-    Write-Output "wtf got $LauncherPath and $SublimePath"
+    Write-Output "Invoking launcher at ""$LauncherPath"" for subl at ""$SublimePath"""
 
     New-Item "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe" -ErrorAction SilentlyContinue
     New-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\notepad.exe" -Name "Debugger" -Value """$LauncherPath"" -s ""$SublimePath"" -z" -ErrorAction SilentlyContinue
